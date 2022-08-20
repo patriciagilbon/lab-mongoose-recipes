@@ -21,3 +21,17 @@ mongoose
   .catch(error => {
     console.error('Error connecting to the database', error);
   });
+
+Recipe.insertMany(data)
+.then(recipe => console.log('The recipe is:', recipe ))
+.catch(error => console.log('An error happened:', error))
+
+new Recipe({ title: 'soup', cuisine: 'german' })
+  .save()
+  .then(() => {
+    Promise.all([
+      Recipe.findOneAndUpdate({title:"Rigatoni alla Genovese"}, {duration:100}), 
+      Recipe.deleteOne({ title: 'Carrot Cake' })]);
+    mongoose.connection.close();
+  })
+  .catch(err => console.log(`Error while creating a new recipe: ${err}`))
